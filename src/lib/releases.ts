@@ -34,3 +34,56 @@ export async function getLatestRelease(): Promise<LatestRelease> {
     return EMPTY;
   }
 }
+
+export interface ReleaseVersion {
+  version: string;
+  publishedAt: string | null;
+  releaseUrl: string | null;
+  windowsAssetUrl: string | null;
+  macAssetUrl: string | null;
+  prerelease: boolean;
+}
+
+/**
+ * Every published (non-draft) release that has a real downloadable installer, newest first —
+ * same build-time-only contract as getLatestRelease. `/releases` (unlike `/releases/latest`)
+ * never 404s on an empty repo, it just returns [], so an empty array is itself a valid
+ * "nothing published yet" result.
+ *
+ * Two things GitHub's response can't be trusted for directly: (1) list order isn't reliably
+ * created_at-descending — a release re-published later than its neighbors can still come back
+ * out of order — so this sorts explicitly by publish time; (2) a release can exist with zero
+ * assets (e.g. one left over from a broken CI run that never finished uploading), which would
+ * otherwise show up as an empty, undownloadable row — those are filtered out entirely, since a
+ * "version" with no installer isn't something visitors to this page can actually use.
+ */
+export async function getAllReleases(): Promise<ReleaseVersion[]> {
+  try {
+    const res = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/releases?per_page=100`);
+    if (!res.ok) return [];
+    const data = await res.json();
+    if (!Array.isArray(data)) return [];
+
+    return data
+      .map((release: any): ReleaseVersion & { sortKey: number } => {
+        const assets: Array<{ name: string; browser_download_url: string }> = release.assets ?? [];
+        const windowsAsset = assets.find((a) => a.name.toLowerCase().endsWith('.exe'));
+        const macAsset = assets.find((a) => a.name.toLowerCase().endsWith('.dmg'));
+        const publishedAt = typeof release.published_at === 'string' ? release.published_at : null;
+        return {
+          version: typeof release.tag_name === 'string' ? release.tag_name : 'unknown',
+          publishedAt,
+          releaseUrl: typeof release.html_url === 'string' ? release.html_url : null,
+          windowsAssetUrl: windowsAsset?.browser_download_url ?? null,
+          macAssetUrl: macAsset?.browser_download_url ?? null,
+          prerelease: Boolean(release.prerelease),
+          sortKey: publishedAt ? new Date(publishedAt).getTime() : 0,
+        };
+      })
+      .filter((r) => r.windowsAssetUrl || r.macAssetUrl)
+      .sort((a, b) => b.sortKey - a.sortKey)
+      .map(({ sortKey, ...rest }) => rest);
+  } catch {
+    return [];
+  }
+}

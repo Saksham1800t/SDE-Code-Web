@@ -1,0 +1,158 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getAllReleases } from '../lib/releases';
+
+const releases = await getAllReleases();
+
+function formatDate(iso: string | null): string {
+  if (!iso) return '';
+  return new Date(iso).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+}
+---
+
+<Layout title="All Versions" description="Download any past release of SDE Code for Windows or macOS.">
+  <section class="container versions-page">
+    <span class="eyebrow">Release history</span>
+    <h1>All Versions</h1>
+    <p class="versions-sub">
+      Looking for the newest build? Head to the <a href="/download">download page</a>. Every past release stays available here in case a newer version doesn't work for you.
+    </p>
+
+    {releases.length === 0 ? (
+      <p class="versions-empty">No releases published yet.</p>
+    ) : (
+      <div class="versions-list">
+        {releases.map((r, i) => (
+          <div class="version-row">
+            <div class="version-row-main">
+              <span class="version-tag">{r.version}</span>
+              {i === 0 && <span class="version-latest-badge">Latest</span>}
+              {r.prerelease && <span class="version-prerelease-badge">Pre-release</span>}
+              {r.publishedAt && <span class="version-date">{formatDate(r.publishedAt)}</span>}
+            </div>
+            <div class="version-row-actions">
+              {r.windowsAssetUrl && (
+                <a class="btn btn--secondary btn--sm" href={r.windowsAssetUrl}>Windows</a>
+              )}
+              {r.macAssetUrl && (
+                <a class="btn btn--secondary btn--sm" href={r.macAssetUrl}>macOS</a>
+              )}
+              {r.releaseUrl && (
+                <a class="version-notes-link" href={r.releaseUrl} target="_blank" rel="noopener noreferrer">Release notes →</a>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    )}
+  </section>
+</Layout>
+
+<style>
+  .versions-page {
+    padding: var(--space-16) var(--space-6) var(--space-24);
+    max-width: 800px;
+  }
+
+  .versions-page h1 {
+    font-size: var(--font-size-2xl);
+    margin: var(--space-4) 0 var(--space-3);
+  }
+
+  .versions-sub {
+    color: var(--text-secondary);
+    margin-bottom: var(--space-12);
+  }
+
+  .versions-sub a {
+    color: var(--accent-cyan);
+    font-weight: 600;
+  }
+
+  .versions-empty {
+    color: var(--text-muted);
+  }
+
+  .versions-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .version-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding: var(--space-4) var(--space-6);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background: var(--bg-secondary);
+    transition: var(--transition-smooth);
+  }
+
+  .version-row:hover {
+    border-color: var(--accent-purple);
+  }
+
+  .version-row-main {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+
+  .version-tag {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  .version-latest-badge {
+    padding: 2px 8px;
+    border-radius: var(--radius-pill);
+    background: color-mix(in srgb, var(--accent-cyan) 18%, transparent);
+    color: var(--accent-cyan);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .version-prerelease-badge {
+    padding: 2px 8px;
+    border-radius: var(--radius-pill);
+    background: color-mix(in srgb, var(--color-warning) 18%, transparent);
+    color: var(--color-warning);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .version-date {
+    color: var(--text-muted);
+    font-size: var(--font-size-sm);
+  }
+
+  .version-row-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .btn--sm {
+    padding: var(--space-2) var(--space-4);
+    font-size: var(--font-size-sm);
+  }
+
+  .version-notes-link {
+    color: var(--text-muted);
+    font-size: var(--font-size-sm);
+  }
+
+  .version-notes-link:hover {
+    color: var(--accent-cyan);
+  }
+</style>
