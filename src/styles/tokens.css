@@ -7,10 +7,10 @@
   --bg-tertiary: #1b1f2b;
   --border-color: rgba(255, 255, 255, 0.08);
 
-  /* A single indigo/violet accent family — --accent-purple is the same hue, one step darker,
-     used only for hover/glow depth so it reads as one cohesive color, not two competing ones. */
-  --accent-cyan: #6366f1;
-  --accent-purple: #4f46e5;
+  /* A single violet accent family, matching the OG social-card image's background glow —
+     --accent-purple is the same hue, one step darker, used only for hover/glow depth. */
+  --accent-cyan: #8a2be2;
+  --accent-purple: #6d1fc4;
 
   --text-primary: #f1f5f9;
   --text-secondary: #94a3b8;
@@ -62,10 +62,10 @@
     --bg-tertiary: #f1f5f9;
     --border-color: rgba(15, 23, 42, 0.1);
 
-    /* One step darker than the dark-mode pair — plain #6366f1/#4f46e5 read a little washed
-       out against a white background, this keeps contrast comfortable for body text and links. */
-    --accent-cyan: #4f46e5;
-    --accent-purple: #4338ca;
+    /* One step darker than the dark-mode pair — plain #8a2be2 reads a little washed out
+       against a white background, this keeps contrast comfortable for body text and links. */
+    --accent-cyan: #6d1fc4;
+    --accent-purple: #5b1aa3;
 
     --text-primary: #0f172a;
     --text-secondary: #475569;
