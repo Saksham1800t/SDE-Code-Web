@@ -21,21 +21,24 @@ const platforms = [
 
 <Layout title="Download" description="Download SDE Code for Windows or macOS.">
   <section class="container download-page">
-    <h1>Download</h1>
+    <span class="eyebrow">{release.version ? `Version ${release.version}` : 'No build published yet'}</span>
+    <h1>Download SDE Code</h1>
     <p class="version-line">
-      {release.version ? `Latest version: ${release.version}` : 'No build has been published yet.'}
-      {release.releaseUrl && (
-        <>
-          {' · '}
-          <a href={release.releaseUrl} target="_blank" rel="noopener noreferrer">Release notes</a>
-        </>
+      {release.releaseUrl ? (
+        <a href={release.releaseUrl} target="_blank" rel="noopener noreferrer">Read the release notes →</a>
+      ) : (
+        'Check back soon — the first build is on its way.'
       )}
     </p>
 
     <div class="platform-grid">
       {platforms.map((p) => (
-        <div class="platform-card">
-          <h2>{p.name}</h2>
+        <div class="platform-card tick-frame">
+          <span class="tick tick-tl" aria-hidden="true"></span>
+          <span class="tick tick-tr" aria-hidden="true"></span>
+          <span class="tick tick-bl" aria-hidden="true"></span>
+          <span class="tick tick-br" aria-hidden="true"></span>
+          <span class="platform-badge">{p.name}</span>
           <p class="requirement">{p.requirement}</p>
           {p.assetUrl ? (
             <a class="btn btn--primary" href={p.assetUrl}>Download for {p.name}</a>
@@ -59,7 +62,7 @@ const platforms = [
 
   .download-page h1 {
     font-size: var(--font-size-2xl);
-    margin-bottom: var(--space-3);
+    margin: var(--space-4) 0 var(--space-3);
   }
 
   .version-line {
@@ -69,6 +72,7 @@ const platforms = [
 
   .version-line a {
     color: var(--accent-cyan);
+    font-weight: 600;
   }
 
   .platform-grid {
@@ -78,15 +82,27 @@ const platforms = [
   }
 
   .platform-card {
+    position: relative;
     padding: var(--space-8);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-lg);
     background: var(--bg-secondary);
+    transition: var(--transition-smooth);
   }
 
-  .platform-card h2 {
-    font-size: var(--font-size-lg);
-    margin-bottom: var(--space-2);
+  .platform-card:hover {
+    border-color: var(--accent-purple);
+  }
+
+  .platform-badge {
+    display: inline-block;
+    margin-bottom: var(--space-4);
+    font-family: var(--font-mono);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text-primary);
   }
 
   .requirement {

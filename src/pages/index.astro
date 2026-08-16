@@ -28,6 +28,11 @@ const features = [
     href: '/docs/git',
   },
   {
+    title: 'Code Map & Impact Analysis',
+    description: 'A visual dependency graph of your workspace, plus AI-assisted "Analyze Impact" — see what a change could break, and which tests to run, before you touch anything.',
+    href: '/docs/code-map',
+  },
+  {
     title: 'Notebook Cells',
     description: 'Run Python cells against a persistent kernel with real cross-cell state, live streaming output, and .ipynb files that round-trip cleanly with Jupyter.',
     href: '/docs/notebooks',
@@ -41,36 +46,94 @@ const features = [
 ---
 
 <Layout title="AI-first IDE" description={TAGLINE}>
-  <section class="hero">
+  <section class="hero tick-frame">
+    <span class="tick tick-tl" aria-hidden="true"></span>
+    <span class="tick tick-tr" aria-hidden="true"></span>
+    <span class="tick tick-bl" aria-hidden="true"></span>
+    <span class="tick tick-br" aria-hidden="true"></span>
+    <div class="hero-glow" aria-hidden="true"></div>
     <div class="container hero-inner">
+      <span class="eyebrow">Built from scratch, not a fork</span>
       <h1>{TAGLINE}</h1>
-      <p class="hero-sub">A desktop IDE with AI woven into editing, debugging, and git — built from scratch, not a fork.</p>
+      <p class="hero-sub">A desktop IDE with AI woven into editing, debugging, and git — its own architecture from the ground up.</p>
       <DownloadButton client:load version={release.version} windowsAssetUrl={release.windowsAssetUrl} macAssetUrl={release.macAssetUrl} />
     </div>
   </section>
 
-  <section class="features">
+  <section class="showcase">
     <div class="container">
       <h2 class="features-title">Everything you need, in one editor</h2>
-      <div class="features-grid">
-        {features.map((f) => (
-          <a class="feature-card" href={f.href}>
-            <h3>{f.title}</h3>
-            <p>{f.description}</p>
-          </a>
-        ))}
+
+      <div class="showcase-grid">
+        <div class="showcase-list" role="tablist" aria-label="Features">
+          {features.map((f, i) => (
+            <button
+              type="button"
+              class="showcase-item"
+              data-index={i}
+              aria-selected={i === 0 ? 'true' : 'false'}
+              role="tab"
+            >
+              {f.title}
+            </button>
+          ))}
+        </div>
+
+        <div class="showcase-detail tick-frame">
+          <span class="tick tick-tl" aria-hidden="true"></span>
+          <span class="tick tick-tr" aria-hidden="true"></span>
+          <span class="tick tick-bl" aria-hidden="true"></span>
+          <span class="tick tick-br" aria-hidden="true"></span>
+          {features.map((f, i) => (
+            <div class="showcase-panel" data-panel={i} hidden={i !== 0}>
+              <h3>{f.title}</h3>
+              <p>{f.description}</p>
+              <a class="showcase-link" href={f.href}>Read the docs →</a>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   </section>
 </Layout>
 
+<script>
+  const items = document.querySelectorAll<HTMLButtonElement>('.showcase-item');
+  const panels = document.querySelectorAll<HTMLElement>('.showcase-panel');
+
+  items.forEach((item) => {
+    item.addEventListener('click', () => {
+      const idx = item.dataset.index;
+      items.forEach((i) => i.setAttribute('aria-selected', String(i === item)));
+      panels.forEach((p) => {
+        p.hidden = p.dataset.panel !== idx;
+      });
+    });
+  });
+</script>
+
 <style>
   .hero {
+    position: relative;
     padding: var(--space-24) 0 var(--space-16);
     text-align: center;
+    overflow: hidden;
+  }
+
+  .hero-glow {
+    position: absolute;
+    top: -30%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 900px;
+    max-width: 160vw;
+    height: 480px;
+    background: radial-gradient(ellipse at center, color-mix(in srgb, var(--accent-purple) 24%, transparent), transparent 70%);
+    pointer-events: none;
   }
 
   .hero-inner {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -92,7 +155,7 @@ const features = [
     font-size: var(--font-size-md);
   }
 
-  .features {
+  .showcase {
     padding: var(--space-16) 0 var(--space-24);
   }
 
@@ -102,33 +165,92 @@ const features = [
     margin-bottom: var(--space-12);
   }
 
-  .features-grid {
+  .showcase-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: var(--space-6);
+    grid-template-columns: 300px 1fr;
+    gap: var(--space-8);
+    align-items: stretch;
   }
 
-  .feature-card {
-    display: block;
-    padding: var(--space-6);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-lg);
-    background: var(--bg-secondary);
+  .showcase-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .showcase-item {
+    text-align: left;
+    padding: var(--space-3) var(--space-4);
+    border: none;
+    border-left: 2px solid transparent;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--text-muted);
+    font-family: var(--font-sans);
+    font-size: var(--font-size-base);
+    font-weight: 500;
+    cursor: pointer;
     transition: var(--transition-smooth);
   }
 
-  .feature-card:hover {
-    border-color: var(--accent-purple);
-    transform: translateY(-2px);
+  .showcase-item:hover {
+    color: var(--text-primary);
+    background: var(--bg-secondary);
   }
 
-  .feature-card h3 {
-    font-size: var(--font-size-md);
-    margin-bottom: var(--space-2);
+  .showcase-item[aria-selected='true'] {
+    color: var(--text-primary);
+    border-left-color: var(--accent-cyan);
+    background: var(--bg-secondary);
   }
 
-  .feature-card p {
+  .showcase-detail {
+    padding: var(--space-8);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    background: var(--bg-secondary);
+  }
+
+  .showcase-panel h3 {
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--space-4);
+  }
+
+  .showcase-panel p {
     color: var(--text-secondary);
+    font-size: var(--font-size-base);
+    line-height: 1.7;
+    margin-bottom: var(--space-6);
+  }
+
+  .showcase-link {
+    color: var(--accent-cyan);
+    font-weight: 600;
     font-size: var(--font-size-sm);
+  }
+
+  .showcase-link:hover {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 820px) {
+    .showcase-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .showcase-list {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+    }
+
+    .showcase-item {
+      border-left: none;
+      border-bottom: 2px solid transparent;
+    }
+
+    .showcase-item[aria-selected='true'] {
+      border-bottom-color: var(--accent-cyan);
+    }
   }
 </style>
