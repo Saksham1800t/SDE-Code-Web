@@ -76,8 +76,10 @@ const imageURL = new URL(image, Astro.site);
         border-bottom: 1px solid var(--border-color);
         position: sticky;
         top: 0;
-        background: color-mix(in srgb, var(--bg-primary) 90%, transparent);
-        backdrop-filter: blur(8px);
+        /* Solid, not translucent+blurred — backdrop-filter combined with the sticky
+           sidebar/ToC on docs pages triggers a real Chrome GPU-compositing bug on some
+           Windows drivers that renders the content column as a solid blank box. */
+        background: var(--bg-primary);
         z-index: 10;
       }
 

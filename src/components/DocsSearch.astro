@@ -118,8 +118,8 @@
   .docs-search-backdrop {
     position: absolute;
     inset: 0;
-    background: color-mix(in srgb, var(--bg-primary) 75%, transparent);
-    backdrop-filter: blur(4px);
+    /* No backdrop-filter blur — see site-header's comment in Layout.astro for why. */
+    background: color-mix(in srgb, var(--bg-primary) 88%, transparent);
   }
 
   .docs-search-panel {
