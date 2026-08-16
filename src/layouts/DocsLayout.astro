@@ -190,7 +190,7 @@ const tocHeadings = headings.filter((h) => h.depth === 2);
   }
 
   .docs-content h1 {
-    font-size: var(--font-size-2xl);
+    font-size: clamp(1.75rem, 4vw + 1rem, var(--font-size-2xl));
     margin-bottom: var(--space-6);
   }
 

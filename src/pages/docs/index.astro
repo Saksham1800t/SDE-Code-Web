@@ -25,7 +25,7 @@ const allDocs = (await getCollection('docs')).sort((a, b) => a.data.order - b.da
   }
 
   .docs-index h1 {
-    font-size: var(--font-size-2xl);
+    font-size: clamp(1.75rem, 4vw + 1rem, var(--font-size-2xl));
     margin-bottom: var(--space-12);
   }
 

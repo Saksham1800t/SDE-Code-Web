@@ -115,9 +115,15 @@ const features = [
 <style>
   .hero {
     position: relative;
-    padding: var(--space-24) 0 var(--space-16);
+    padding: var(--space-16) 0 var(--space-12);
     text-align: center;
     overflow: hidden;
+  }
+
+  @media (min-width: 640px) {
+    .hero {
+      padding: var(--space-24) 0 var(--space-16);
+    }
   }
 
   .hero-glow {
@@ -141,18 +147,16 @@ const features = [
   }
 
   .hero h1 {
-    font-size: var(--font-size-3xl);
+    /* Fluid between mobile and desktop instead of a fixed 60px that wraps awkwardly on narrow screens. */
+    font-size: clamp(2.25rem, 5vw + 1rem, var(--font-size-3xl));
     max-width: 780px;
-    background: linear-gradient(90deg, #22D3EE, #8B5CF6);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+    color: var(--accent-cyan);
   }
 
   .hero-sub {
     max-width: 560px;
     color: var(--text-secondary);
-    font-size: var(--font-size-md);
+    font-size: clamp(var(--font-size-base), 2vw + 0.5rem, var(--font-size-md));
   }
 
   .showcase {
@@ -161,7 +165,7 @@ const features = [
 
   .features-title {
     text-align: center;
-    font-size: var(--font-size-xl);
+    font-size: clamp(1.5rem, 3vw + 1rem, var(--font-size-xl));
     margin-bottom: var(--space-12);
   }
 
