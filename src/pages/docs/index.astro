@@ -1,0 +1,61 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+const allDocs = (await getCollection('docs')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<Layout title="Docs" description="Documentation for SDE Code — an AI-first desktop IDE.">
+  <div class="container docs-index">
+    <h1>Documentation</h1>
+    <div class="docs-index-grid">
+      {allDocs.map((doc) => (
+        <a class="docs-index-card" href={`/docs/${doc.id}`}>
+          <h2>{doc.data.title}</h2>
+          <p>{doc.data.description}</p>
+        </a>
+      ))}
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .docs-index {
+    padding: var(--space-16) var(--space-6) var(--space-24);
+  }
+
+  .docs-index h1 {
+    font-size: var(--font-size-2xl);
+    margin-bottom: var(--space-12);
+  }
+
+  .docs-index-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-6);
+  }
+
+  .docs-index-card {
+    display: block;
+    padding: var(--space-6);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    background: var(--bg-secondary);
+    transition: var(--transition-smooth);
+  }
+
+  .docs-index-card:hover {
+    border-color: var(--accent-purple);
+    transform: translateY(-2px);
+  }
+
+  .docs-index-card h2 {
+    font-size: var(--font-size-md);
+    margin-bottom: var(--space-2);
+  }
+
+  .docs-index-card p {
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+  }
+</style>
