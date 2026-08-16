@@ -1,0 +1,55 @@
+/* Ported from apps/desktop's index.css so the site matches the product's
+   actual brand colors instead of drifting — see that file for the source of
+   truth. Font-size/spacing scales are NOT copied verbatim: the IDE's scale is
+   tuned for a dense editor UI (tops out at 20px), a marketing page needs
+   room for a real hero headline, so those are redefined here at web scale. */
+:root {
+  --bg-primary: #08090c;
+  --bg-secondary: #11141c;
+  --bg-tertiary: #1b1f2b;
+  --border-color: rgba(255, 255, 255, 0.08);
+
+  --accent-cyan: #00ffcc;
+  --accent-purple: #8a2be2;
+
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+
+  --color-danger: #ff6b6b;
+  --color-success: #3fb950;
+  --color-warning: #d29922;
+  --color-info: #58a6ff;
+
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-pill: 999px;
+
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'Fira Code', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Marketing-scale type — separate from the IDE's own dense UI scale. */
+  --font-size-sm: 14px;
+  --font-size-base: 16px;
+  --font-size-md: 18px;
+  --font-size-lg: 22px;
+  --font-size-xl: 32px;
+  --font-size-2xl: 44px;
+  --font-size-3xl: 60px;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+
+  --content-width: 1120px;
+
+  --transition-smooth: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}

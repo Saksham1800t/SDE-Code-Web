@@ -1,0 +1,113 @@
+---
+import '../styles/global.css';
+import { PRODUCT_NAME, GITHUB_URL } from '../config';
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/png" href="/sde-taskbar-icon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <title>{title} · {PRODUCT_NAME}</title>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container site-header-inner">
+        <a href="/" class="brand">
+          <img src="/sde-mark.png" width="24" height="24" alt="" />
+          <span>{PRODUCT_NAME}</span>
+        </a>
+        <nav class="site-nav">
+          <a href="/download">Download</a>
+          <a href="/docs">Docs</a>
+          <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer">GitHub</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="container site-footer-inner">
+        <span>&copy; {new Date().getFullYear()} {PRODUCT_NAME}</span>
+        <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer">GitHub</a>
+      </div>
+    </footer>
+
+    <style>
+      .site-header {
+        border-bottom: 1px solid var(--border-color);
+        position: sticky;
+        top: 0;
+        background: color-mix(in srgb, var(--bg-primary) 90%, transparent);
+        backdrop-filter: blur(8px);
+        z-index: 10;
+      }
+
+      .site-header-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 64px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+        font-weight: 700;
+        font-size: var(--font-size-md);
+      }
+
+      .site-nav {
+        display: flex;
+        align-items: center;
+        gap: var(--space-8);
+      }
+
+      .site-nav a {
+        color: var(--text-secondary);
+        font-size: var(--font-size-sm);
+        font-weight: 500;
+        transition: var(--transition-smooth);
+      }
+
+      .site-nav a:hover {
+        color: var(--text-primary);
+      }
+
+      .site-footer {
+        border-top: 1px solid var(--border-color);
+        margin-top: var(--space-24);
+      }
+
+      .site-footer-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 72px;
+        color: var(--text-muted);
+        font-size: var(--font-size-sm);
+      }
+
+      .site-footer-inner a {
+        color: var(--text-muted);
+      }
+
+      .site-footer-inner a:hover {
+        color: var(--text-primary);
+      }
+    </style>
+  </body>
+</html>

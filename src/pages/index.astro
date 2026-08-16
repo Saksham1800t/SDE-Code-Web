@@ -1,0 +1,134 @@
+---
+import Layout from '../layouts/Layout.astro';
+import DownloadButton from '../components/DownloadButton';
+import { getLatestRelease } from '../lib/releases';
+import { TAGLINE } from '../config';
+
+const release = await getLatestRelease();
+
+const features = [
+  {
+    title: 'AI Assistant & Agent Mode',
+    description: 'Chat with AI grounded in your codebase, or hand off a task to Agent Mode — it reads files, proposes edits for your review, and runs terminal commands with an approval gate at every step.',
+    href: '/docs/ai-assistant',
+  },
+  {
+    title: 'Real Language Intelligence',
+    description: 'A genuine language server (not a heuristic) powers completion, hover docs, go-to-definition, and live diagnostics — the same experience you get in any LSP-backed editor.',
+    href: '/docs/editing',
+  },
+  {
+    title: 'Integrated Debugger',
+    description: 'Set breakpoints, step through code, and inspect the call stack and variables — a real Debug Adapter Protocol client, not a bolted-on console.log.',
+    href: '/docs/debugging',
+  },
+  {
+    title: 'Git, Built In',
+    description: 'A full source control panel, an embedded interactive commit graph, and GitHub pull request / issue review — without leaving the editor.',
+    href: '/docs/git',
+  },
+  {
+    title: 'Notebook Cells',
+    description: 'Run Python cells against a persistent kernel with real cross-cell state, live streaming output, and .ipynb files that round-trip cleanly with Jupyter.',
+    href: '/docs/notebooks',
+  },
+  {
+    title: 'Extensions',
+    description: 'A marketplace for installing extensions, and the tooling to build and publish your own — themes, language servers, debug adapters, and AI tools.',
+    href: '/docs/extensions',
+  },
+];
+---
+
+<Layout title="AI-first IDE" description={TAGLINE}>
+  <section class="hero">
+    <div class="container hero-inner">
+      <h1>{TAGLINE}</h1>
+      <p class="hero-sub">A desktop IDE with AI woven into editing, debugging, and git — built from scratch, not a fork.</p>
+      <DownloadButton client:load version={release.version} windowsAssetUrl={release.windowsAssetUrl} macAssetUrl={release.macAssetUrl} />
+    </div>
+  </section>
+
+  <section class="features">
+    <div class="container">
+      <h2 class="features-title">Everything you need, in one editor</h2>
+      <div class="features-grid">
+        {features.map((f) => (
+          <a class="feature-card" href={f.href}>
+            <h3>{f.title}</h3>
+            <p>{f.description}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .hero {
+    padding: var(--space-24) 0 var(--space-16);
+    text-align: center;
+  }
+
+  .hero-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-6);
+  }
+
+  .hero h1 {
+    font-size: var(--font-size-3xl);
+    max-width: 780px;
+    background: linear-gradient(120deg, var(--text-primary), var(--accent-cyan));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .hero-sub {
+    max-width: 560px;
+    color: var(--text-secondary);
+    font-size: var(--font-size-md);
+  }
+
+  .features {
+    padding: var(--space-16) 0 var(--space-24);
+  }
+
+  .features-title {
+    text-align: center;
+    font-size: var(--font-size-xl);
+    margin-bottom: var(--space-12);
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-6);
+  }
+
+  .feature-card {
+    display: block;
+    padding: var(--space-6);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    background: var(--bg-secondary);
+    transition: var(--transition-smooth);
+  }
+
+  .feature-card:hover {
+    border-color: var(--accent-purple);
+    transform: translateY(-2px);
+  }
+
+  .feature-card h3 {
+    font-size: var(--font-size-md);
+    margin-bottom: var(--space-2);
+  }
+
+  .feature-card p {
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+  }
+</style>

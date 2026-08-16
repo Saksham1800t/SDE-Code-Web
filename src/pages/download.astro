@@ -1,0 +1,107 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getLatestRelease } from '../lib/releases';
+import { GITHUB_URL } from '../config';
+
+const release = await getLatestRelease();
+
+const platforms = [
+  {
+    name: 'Windows',
+    requirement: 'Windows 10 or later, 64-bit',
+    assetUrl: release.windowsAssetUrl,
+  },
+  {
+    name: 'macOS',
+    requirement: 'macOS 11 (Big Sur) or later',
+    assetUrl: release.macAssetUrl,
+  },
+];
+---
+
+<Layout title="Download" description="Download SDE Code for Windows or macOS.">
+  <section class="container download-page">
+    <h1>Download</h1>
+    <p class="version-line">
+      {release.version ? `Latest version: ${release.version}` : 'No build has been published yet.'}
+      {release.releaseUrl && (
+        <>
+          {' · '}
+          <a href={release.releaseUrl} target="_blank" rel="noopener noreferrer">Release notes</a>
+        </>
+      )}
+    </p>
+
+    <div class="platform-grid">
+      {platforms.map((p) => (
+        <div class="platform-card">
+          <h2>{p.name}</h2>
+          <p class="requirement">{p.requirement}</p>
+          {p.assetUrl ? (
+            <a class="btn btn--primary" href={p.assetUrl}>Download for {p.name}</a>
+          ) : (
+            <button class="btn btn--primary" disabled>Coming soon</button>
+          )}
+        </div>
+      ))}
+    </div>
+
+    <p class="source-note">
+      SDE Code is built in the open — browse the source or file an issue on <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer">GitHub</a>.
+    </p>
+  </section>
+</Layout>
+
+<style>
+  .download-page {
+    padding: var(--space-16) var(--space-6) var(--space-24);
+  }
+
+  .download-page h1 {
+    font-size: var(--font-size-2xl);
+    margin-bottom: var(--space-3);
+  }
+
+  .version-line {
+    color: var(--text-secondary);
+    margin-bottom: var(--space-12);
+  }
+
+  .version-line a {
+    color: var(--accent-cyan);
+  }
+
+  .platform-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-6);
+  }
+
+  .platform-card {
+    padding: var(--space-8);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    background: var(--bg-secondary);
+  }
+
+  .platform-card h2 {
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--space-2);
+  }
+
+  .requirement {
+    color: var(--text-muted);
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--space-6);
+  }
+
+  .source-note {
+    margin-top: var(--space-16);
+    color: var(--text-muted);
+    font-size: var(--font-size-sm);
+  }
+
+  .source-note a {
+    color: var(--accent-cyan);
+  }
+</style>
