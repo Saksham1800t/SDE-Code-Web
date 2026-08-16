@@ -38,7 +38,7 @@ Define your own code snippets per language from **Settings → Text Editor → S
 
 ## Search & bulk rename
 
-Project-wide find/replace supports regex, whole-word, and case-sensitive matching. A **Search Editor** saves a search's results as a re-runnable, editable document. Cross-file symbol renames get a full preview across every affected file before anything is written.
+Project-wide find/replace supports regex, whole-word, and case-sensitive matching, plus include/exclude glob filters that persist across searches. A **Search Editor** saves a search's results as a re-runnable, editable document. Cross-file symbol renames get a full preview across every affected file before anything is written.
 
 ## Local History
 

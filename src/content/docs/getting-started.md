@@ -24,6 +24,8 @@ The first time you open a folder, SDE Code asks whether you trust it. Restricted
 - **Bottom panel** — Terminal, Problems, Ports, Output, Debug console.
 - **AI Assistant panel** — chat, Agent Mode, Repo mode, and External Agent integrations live here; see [AI Assistant & Agent Mode](/docs/ai-assistant).
 
+Every part of this layout is customizable — split the editor into multiple panes, rearrange the bottom panel's tabs, or hide everything but the editor with Zen Mode. See [Interface & Layout](/docs/interface-layout).
+
 ## Picking an AI provider
 
 Open **Settings → AI Provider Credentials** and add an API key for Anthropic (Claude), OpenAI, or Gemini — whichever you use. You can switch between configured providers per-conversation from the model selector in the Assistant panel.
