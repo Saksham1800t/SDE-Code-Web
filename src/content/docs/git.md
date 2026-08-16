@@ -1,16 +1,26 @@
 ---
 title: Git & GitHub
 description: Source control, an interactive commit graph, and GitHub PR/issue review — built in.
-order: 4
+order: 5
 ---
 
 ## Source Control panel
 
-Stage, unstage, and discard changes per file or all at once; write commit messages with gitmoji shortcuts; push, pull, and fetch — all without leaving the editor. Merge conflicts get a dedicated three-pane resolution view.
+Stage, unstage, and discard changes per file or all at once; write commit messages with gitmoji shortcuts; push, pull, and fetch — all without leaving the editor. A collapsible **Stashes** section lists every stash with its count, and lets you push (with an optional message), pop, or drop a stash directly, without touching the terminal.
+
+Merge conflicts get a dedicated three-pane **Merge Editor** — accept "ours," "theirs," or both, per conflict hunk, then save to resolve.
 
 ## Embedded Git Graph
 
 The sidebar shows a compact, lane-based commit graph per repository (multi-root workspaces get one section per nested repo, auto-discovered). Click a commit to expand its changed-file list inline; click a file to view its diff.
+
+## Repository Overview
+
+A dedicated full panel tab (distinct from the sidebar graph) showing stat tiles — commit, branch, contributor, and tag counts — a latest-commit card, and the same activity heatmap described below, all in one place.
+
+## Branch Comparison
+
+Pick any two local branches and see the full list of files that differ between them, with insertion/deletion counts per file — open any file's diff directly from the comparison. Distinct from the commit graph, which is about history rather than a point-in-time diff between two branches.
 
 ## Commit heatmap & code hotspots
 

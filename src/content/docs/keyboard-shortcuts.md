@@ -1,7 +1,7 @@
 ---
 title: Keyboard Shortcuts
 description: Common shortcuts, and how to customize keybindings.
-order: 7
+order: 13
 ---
 
 ## Common shortcuts

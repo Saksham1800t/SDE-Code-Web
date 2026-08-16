@@ -1,7 +1,7 @@
 ---
 title: Notebook Cells
 description: REPL-style notebooks backed by a real, persistent Python kernel.
-order: 5
+order: 6
 ---
 
 ## Real cross-cell state

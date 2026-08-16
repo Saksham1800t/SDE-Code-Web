@@ -1,7 +1,7 @@
 ---
 title: Debugging
 description: Breakpoints, call stacks, and variable inspection via a real DAP client.
-order: 3
+order: 4
 ---
 
 ## A real Debug Adapter Protocol client
