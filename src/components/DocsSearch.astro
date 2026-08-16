@@ -1,0 +1,149 @@
+---
+// Pagefind's index and default UI bundle (/pagefind/pagefind-ui.js) only exist after
+// `astro build && pagefind --site dist` has run — see package.json's "build" script.
+// In dev, the dynamic import below fails gracefully and the panel says so.
+---
+
+<button type="button" class="docs-search-trigger" id="docs-search-trigger" aria-haspopup="dialog">
+  <span>Search docs</span>
+  <kbd>Ctrl K</kbd>
+</button>
+
+<div class="docs-search-modal" id="docs-search-modal" role="dialog" aria-modal="true" aria-label="Search documentation" hidden>
+  <div class="docs-search-backdrop" id="docs-search-backdrop"></div>
+  <div class="docs-search-panel">
+    <div id="docs-search-results"></div>
+  </div>
+</div>
+
+<script>
+  let pagefindLoaded = false;
+  const trigger = document.getElementById('docs-search-trigger');
+  const modal = document.getElementById('docs-search-modal');
+  const backdrop = document.getElementById('docs-search-backdrop');
+
+  // pagefind-ui.js is a classic script (it sets window.PagefindUI directly), not an ES
+  // module — it only exists after `pagefind --site dist` runs post-build, so it can't be a
+  // static <script> tag either. Load it as a one-off classic script rather than import().
+  function loadPagefindUI() {
+    return new Promise<void>((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = '/pagefind/pagefind-ui.js';
+      script.onload = () => resolve();
+      script.onerror = () => reject(new Error('Failed to load Pagefind UI'));
+      document.head.appendChild(script);
+    });
+  }
+
+  async function openSearch() {
+    if (!modal) return;
+    modal.hidden = false;
+    document.body.style.overflow = 'hidden';
+
+    if (!pagefindLoaded) {
+      pagefindLoaded = true;
+      try {
+        await loadPagefindUI();
+        // @ts-ignore -- global set by the classic script above
+        new window.PagefindUI({ element: '#docs-search-results', showSubResults: true, showImages: false });
+      } catch {
+        const results = document.getElementById('docs-search-results');
+        if (results) results.textContent = 'Search is only available on the deployed site.';
+      }
+    }
+
+    modal.querySelector('input')?.focus();
+  }
+
+  function closeSearch() {
+    if (!modal) return;
+    modal.hidden = true;
+    document.body.style.overflow = '';
+  }
+
+  trigger?.addEventListener('click', openSearch);
+  backdrop?.addEventListener('click', closeSearch);
+
+  document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+      e.preventDefault();
+      if (modal?.hidden) openSearch();
+      else closeSearch();
+    }
+    if (e.key === 'Escape') closeSearch();
+  });
+</script>
+
+<style>
+  .docs-search-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    width: 100%;
+    padding: var(--space-2) var(--space-3);
+    margin-bottom: var(--space-4);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background: var(--bg-secondary);
+    color: var(--text-muted);
+    font-size: var(--font-size-sm);
+    font-family: var(--font-sans);
+    cursor: pointer;
+    transition: var(--transition-smooth);
+  }
+
+  .docs-search-trigger:hover {
+    border-color: var(--accent-cyan);
+    color: var(--text-secondary);
+  }
+
+  .docs-search-trigger kbd {
+    padding: 1px 6px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-sans);
+    font-size: 11px;
+  }
+
+  .docs-search-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    padding: 10vh var(--space-6) var(--space-6);
+  }
+
+  .docs-search-backdrop {
+    position: absolute;
+    inset: 0;
+    background: color-mix(in srgb, var(--bg-primary) 75%, transparent);
+    backdrop-filter: blur(4px);
+  }
+
+  .docs-search-panel {
+    position: relative;
+    width: 100%;
+    max-width: 640px;
+    max-height: 60vh;
+    overflow-y: auto;
+    padding: var(--space-4);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    background: var(--bg-secondary);
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5);
+
+    /* Theme Pagefind's default UI to match the site — these custom properties
+       cascade into the dynamically-injected search markup even though Astro's
+       scoped-style attribute can't reach elements Pagefind adds at runtime. */
+    --pagefind-ui-primary: var(--accent-cyan);
+    --pagefind-ui-text: var(--text-primary);
+    --pagefind-ui-background: var(--bg-secondary);
+    --pagefind-ui-border: var(--border-color);
+    --pagefind-ui-tag: var(--bg-tertiary);
+    --pagefind-ui-border-radius: 6px;
+    --pagefind-ui-border-width: 1px;
+    --pagefind-ui-font: var(--font-sans);
+  }
+</style>
