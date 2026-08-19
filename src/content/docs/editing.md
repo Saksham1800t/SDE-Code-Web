@@ -6,6 +6,8 @@ order: 2
 
 ## Language intelligence
 
+![Autocomplete suggesting notify.error() in a real TypeScript file](/demos/editing-intellisense.gif)
+
 SDE Code speaks the real Language Server Protocol (LSP) — for Python, it spawns and talks to `pyright`. That gets you genuine completion, hover documentation, go-to-definition, live diagnostics, **Find All References**, and workspace-wide symbol search (`#` in [Quick Open](/docs/navigation)) — not a heuristic approximation. Extensions can contribute additional language servers via `contributes.languageServers` in their manifest.
 
 ## Editor display settings

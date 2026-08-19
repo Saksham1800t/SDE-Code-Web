@@ -4,6 +4,8 @@ description: Auto-detected port forwarding, an in-app browser preview, and publi
 order: 10
 ---
 
+![The Ports panel](/demos/ports-tunneling.png)
+
 ## Forwarded ports
 
 The Ports panel auto-detects listening ports two ways — from processes running in an integrated terminal, and from an OS-level scan — and lists each with a source badge (**Terminal**, **System**, or **Manual**). Add a port by hand if something isn't picked up automatically.

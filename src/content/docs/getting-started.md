@@ -4,6 +4,8 @@ description: Install SDE Code, open a project, and get oriented.
 order: 0
 ---
 
+![SDE Code's welcome screen with quick-start actions](/demos/getting-started.png)
+
 ## Installing
 
 Download the installer for your platform from the [download page](/download) — a Windows `.exe` (NSIS installer) or a macOS `.dmg`. Run it, then launch SDE Code.

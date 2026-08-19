@@ -4,6 +4,8 @@ description: Install extensions from the marketplace, or build and publish your 
 order: 7
 ---
 
+![The installed extensions list](/demos/extensions.png)
+
 ## Installing extensions
 
 Open the Extensions panel from the Activity Bar to browse the marketplace — themes, language servers, debug adapters, snippets, and AI tools. Install with one click.

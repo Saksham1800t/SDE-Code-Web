@@ -4,6 +4,8 @@ description: Command Palette, Quick Open's go-to-line/symbol modes, Tab Switcher
 order: 12
 ---
 
+![Quick Open and a project-wide search for notify.error](/demos/navigation.gif)
+
 ## Command Palette
 
 `Ctrl+Shift+P` / `Cmd+Shift+P` opens a fuzzy-searchable list of every command in the app, with your most recently used commands surfaced first.

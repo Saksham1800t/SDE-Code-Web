@@ -4,6 +4,8 @@ description: A separate account for syncing settings across machines, plus Edit 
 order: 11
 ---
 
+![The Cloud Sync sign-in screen](/demos/cloud-sync.png)
+
 ## A separate account from GitHub sign-in
 
 Cloud Sync uses its own email/password account, independent of the GitHub sign-in used for [PR/issue review](/docs/git). Register, log in, or delete your account from **Settings → Cloud Sync**. Your session token is stored in Electron's encrypted `safeStorage`, not in plain browser storage.

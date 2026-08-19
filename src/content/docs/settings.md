@@ -4,6 +4,8 @@ description: User vs. workspace scope, searchable settings, editor/terminal tuni
 order: 8
 ---
 
+![The Settings panel's Feature Toggles](/demos/settings.png)
+
 ## Scope: User vs. Workspace
 
 Most settings are **User**-scoped — they follow you across every project. Two categories are also **Workspace**-scoped and travel with the project instead: **Feature Toggles** and **Toolchain**. A workspace value overrides your user value for that project only, with a **Reset to User value** action to drop the override and inherit again. Security-adjacent categories (credentials, agent tool permissions, sync) are deliberately kept User-only.

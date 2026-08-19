@@ -4,6 +4,8 @@ description: Zen Mode, split editing, tab management, panel customization, the s
 order: 13
 ---
 
+![Switching between the Explorer, Git, and Extensions panels, with the AI Assistant open alongside](/demos/interface-layout.png)
+
 ## Zen Mode
 
 Hides the Activity Bar, both sidebars, the status bar, and the terminal, leaving just the editor — toggle it via the `view.toggleZenMode` command in the Command Palette. Exiting restores exactly what you had open beforehand (not just "reopen everything"): if only the left sidebar was open when you entered, only the left sidebar comes back.

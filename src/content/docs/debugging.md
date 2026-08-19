@@ -4,6 +4,8 @@ description: Breakpoints, call stacks, and variable inspection via a real DAP cl
 order: 4
 ---
 
+![Setting a breakpoint and the Debug panel](/demos/debugging.png)
+
 ## A real Debug Adapter Protocol client
 
 The Debugger is a genuine DAP client — for Python, it drives `debugpy`, the same debug adapter VS Code itself uses. Extensions can contribute additional debug adapters for other languages via `contributes.debugAdapters`.

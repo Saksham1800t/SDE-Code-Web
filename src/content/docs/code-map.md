@@ -4,6 +4,8 @@ description: A visual dependency graph of your workspace, plus AI-assisted blast
 order: 3
 ---
 
+![Right-click a file and choose Analyze Impact](/demos/code-map.png)
+
 ## The Code Map
 
 Opens a force-directed graph of your workspace laid out in three columns — **Frontend** callers, **Modules**, and **Route Handlers** — with animated edges showing which frontend code calls which backend route. It's built from a real dependency index of the project, not a static diagram.

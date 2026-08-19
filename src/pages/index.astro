@@ -22,36 +22,43 @@ const features = [
     title: 'AI Assistant & Agent Mode',
     description: 'Chat with AI grounded in your codebase, or hand off a task to Agent Mode — it reads files, proposes edits for your review, and runs terminal commands with an approval gate at every step.',
     href: '/docs/ai-assistant',
+    demo: '/demos/ai-assistant.png',
   },
   {
     title: 'Real Language Intelligence',
     description: 'A genuine language server (not a heuristic) powers completion, hover docs, go-to-definition, and live diagnostics — the same experience you get in any LSP-backed editor.',
     href: '/docs/editing',
+    demo: '/demos/editing-intellisense.gif',
   },
   {
     title: 'Integrated Debugger',
     description: 'Set breakpoints, step through code, and inspect the call stack and variables — a real Debug Adapter Protocol client, not a bolted-on console.log.',
     href: '/docs/debugging',
+    demo: '/demos/debugging.png',
   },
   {
     title: 'Git, Built In',
     description: 'A full source control panel, an embedded interactive commit graph, and GitHub pull request / issue review — without leaving the editor.',
     href: '/docs/git',
+    demo: '/demos/git.gif',
   },
   {
     title: 'Code Map & Impact Analysis',
     description: 'A visual dependency graph of your workspace, plus AI-assisted "Analyze Impact" — see what a change could break, and which tests to run, before you touch anything.',
     href: '/docs/code-map',
+    demo: '/demos/code-map.png',
   },
   {
     title: 'Notebook Cells',
     description: 'Run Python cells against a persistent kernel with real cross-cell state, live streaming output, and .ipynb files that round-trip cleanly with Jupyter.',
     href: '/docs/notebooks',
+    demo: '/demos/notebooks.gif',
   },
   {
     title: 'Extensions',
     description: 'A marketplace for installing extensions, and the tooling to build and publish your own — themes, language servers, debug adapters, and AI tools.',
     href: '/docs/extensions',
+    demo: '/demos/extensions.png',
   },
 ];
 ---
@@ -121,10 +128,15 @@ const features = [
       {features.map((f, i) => (
         <div class="feature-block">
           <span class="feature-fig">FIG.{String(i + 1).padStart(2, '0')}</span>
-          <div>
-            <h2>{f.title}</h2>
-            <p>{f.description}</p>
-            <a class="showcase-link" href={f.href}>Read the docs →</a>
+          <div class="feature-block-body">
+            <div>
+              <h2>{f.title}</h2>
+              <p>{f.description}</p>
+              <a class="showcase-link" href={f.href}>Read the docs →</a>
+            </div>
+            {f.demo && (
+              <img class="feature-demo" src={f.demo} alt={`${f.title} demo`} loading="lazy" width="380" height="238" />
+            )}
           </div>
         </div>
       ))}
@@ -472,6 +484,14 @@ const features = [
     color: var(--accent-cyan);
   }
 
+  .feature-block-body {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-8);
+    width: 100%;
+  }
+
   .feature-block h2 {
     font-size: var(--font-size-lg);
     margin-bottom: var(--space-3);
@@ -482,7 +502,28 @@ const features = [
     font-size: var(--font-size-base);
     line-height: 1.7;
     margin-bottom: var(--space-4);
-    max-width: 640px;
+    max-width: 560px;
+  }
+
+  .feature-demo {
+    flex-shrink: 0;
+    width: 380px;
+    height: 238px;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-color);
+  }
+
+  @media (max-width: 900px) {
+    .feature-block-body {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .feature-demo {
+      width: 100%;
+      height: auto;
+    }
   }
 
   .showcase-link {

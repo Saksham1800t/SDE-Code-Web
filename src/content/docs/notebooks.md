@@ -4,6 +4,8 @@ description: REPL-style notebooks backed by a real, persistent Python kernel.
 order: 6
 ---
 
+![Running Python notebook cells against a persistent kernel](/demos/notebooks.gif)
+
 ## Real cross-cell state
 
 Open a `.ipynb` file and SDE Code starts a persistent Python interpreter process for that notebook — a lightweight kernel of its own design, not a full Jupyter kernel-protocol client. Running one cell, then another, shares the same live variable namespace, exactly like a real notebook: define something in cell one, use it in cell three.

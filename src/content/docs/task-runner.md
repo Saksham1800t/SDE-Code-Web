@@ -4,6 +4,8 @@ description: Define or auto-detect project tasks, and run them from a fuzzy-sear
 order: 9
 ---
 
+![The Command Palette running an auto-detected npm task](/demos/task-runner.gif)
+
 ## Defining tasks
 
 Add tasks to a `.sde/tasks.json` file in your project root — an array of objects with a `name`, a `command`, and optionally a `cwd` (relative to the workspace folder) and a `problemMatcher`. Commit this file so the whole team gets the same tasks.

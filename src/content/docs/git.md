@@ -4,6 +4,8 @@ description: Source control, an interactive commit graph, and GitHub PR/issue re
 order: 5
 ---
 
+![The Source Control panel and the interactive commit graph](/demos/git.gif)
+
 ## Source Control panel
 
 Stage, unstage, and discard changes per file or all at once; write commit messages with gitmoji shortcuts; push, pull, and fetch — all without leaving the editor. A collapsible **Stashes** section lists every stash with its count, and lets you push (with an optional message), pop, or drop a stash directly, without touching the terminal.

@@ -4,6 +4,8 @@ description: Common shortcuts, and how to customize keybindings.
 order: 14
 ---
 
+![The Keyboard Shortcuts panel](/demos/keyboard-shortcuts.gif)
+
 ## Common shortcuts
 
 | Action | Windows | macOS |
