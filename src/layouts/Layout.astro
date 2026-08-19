@@ -44,6 +44,13 @@ const imageURL = new URL(image, Astro.site);
     <meta name="twitter:image:alt" content={pageTitle} />
 
     <link rel="stylesheet" href="/pagefind/pagefind-ui.css" />
+
+    <script type="application/ld+json" is:inline set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      name: PRODUCT_NAME,
+      url: Astro.site?.toString(),
+    })} />
   </head>
   <body>
     <header class="site-header">
