@@ -61,6 +61,34 @@ const features = [
     demo: '/demos/extensions.png',
   },
 ];
+
+const pillars = [
+  {
+    title: 'Its own architecture',
+    description: 'Built from scratch — not a fork of VS Code or any other editor. An independent codebase, top to bottom.',
+  },
+  {
+    title: 'Real language intelligence',
+    description: 'A genuine Language Server Protocol client powers completion and diagnostics — not a heuristic bolted on top.',
+  },
+  {
+    title: 'Approval gates, not autopilot',
+    description: 'Agent Mode proposes every file edit and terminal command for your review — configurable per tool in Agent Profiles, from read-only to full autonomy.',
+  },
+  {
+    title: 'Bring your own model',
+    description: 'Anthropic Claude, OpenAI GPT-4o, Google Gemini, or a fully local model via Ollama — your choice, set in Settings.',
+  },
+];
+
+const faqs = [
+  { q: 'Is SDE Code free?', a: 'Yes — free to download and use.' },
+  { q: 'Is it built on VS Code?', a: "No. It's an original editor core and architecture, built from scratch." },
+  { q: 'What platforms are supported?', a: 'Windows and macOS today.' },
+  { q: 'Which AI providers can I use?', a: 'Claude, GPT-4o, Gemini, or a local model via Ollama — configured in Settings → AI Provider Credentials.' },
+  { q: 'Can I build my own extensions?', a: 'Yes — themes, snippets, language servers, and more, published to the built-in marketplace.' },
+  { q: "Where's the source, and how do I report a bug?", a: 'SDE Code is built in the open on GitHub — file an issue there.' },
+];
 ---
 
 <Layout title="AI-first IDE" description={TAGLINE}>
@@ -142,6 +170,34 @@ const features = [
       ))}
     </div>
   </section>
+
+  <section class="pillars">
+    <div class="container">
+      <span class="showcase-eyebrow">Why SDE Code</span>
+      <div class="pillars-grid">
+        {pillars.map((p) => (
+          <div class="pillar-card">
+            <h3>{p.title}</h3>
+            <p>{p.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="faq">
+    <div class="container">
+      <span class="showcase-eyebrow">Frequently asked</span>
+      <div class="faq-list">
+        {faqs.map((f) => (
+          <details class="faq-item">
+            <summary>{f.q}</summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
 </Layout>
 
 <script>
@@ -169,7 +225,7 @@ const features = [
     scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 0.6 },
   });
 
-  document.querySelectorAll<HTMLElement>('.feature-block').forEach((el) => {
+  document.querySelectorAll<HTMLElement>('.feature-block, .pillar-card, .faq-item').forEach((el) => {
     gsap.from(el, {
       opacity: 0,
       y: 36,
@@ -183,7 +239,7 @@ const features = [
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     ScrollTrigger.getAll().forEach((t) => t.kill());
     gsap.globalTimeline.clear();
-    document.querySelectorAll<HTMLElement>('.hero-eyebrow, .hero-word, .hero-sub, .hero-cta, .ide-mock, .feature-block').forEach((el) => {
+    document.querySelectorAll<HTMLElement>('.hero-eyebrow, .hero-word, .hero-sub, .hero-cta, .ide-mock, .feature-block, .pillar-card, .faq-item').forEach((el) => {
       el.style.opacity = '1';
       el.style.transform = 'none';
     });
@@ -448,7 +504,7 @@ const features = [
   }
 
   .showcase {
-    padding: var(--space-16) 0 var(--space-24);
+    padding: var(--space-16) 0 var(--space-8);
   }
 
   .showcase-eyebrow {
@@ -541,5 +597,95 @@ const features = [
       flex-direction: column;
       gap: var(--space-2);
     }
+  }
+
+  .pillars {
+    padding: var(--space-8) 0;
+  }
+
+  .pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: var(--space-6);
+  }
+
+  .pillar-card {
+    padding: var(--space-6);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    background: var(--bg-secondary);
+    transition: var(--transition-smooth);
+  }
+
+  .pillar-card:hover {
+    border-color: var(--accent-purple);
+  }
+
+  .pillar-card h3 {
+    font-size: var(--font-size-md);
+    margin-bottom: var(--space-2);
+  }
+
+  .pillar-card p {
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+    line-height: 1.6;
+  }
+
+  .faq {
+    padding: var(--space-8) 0 var(--space-24);
+  }
+
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    max-width: 720px;
+  }
+
+  .faq-item {
+    padding: var(--space-4) var(--space-6);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background: var(--bg-secondary);
+    transition: var(--transition-smooth);
+  }
+
+  .faq-item:hover {
+    border-color: var(--accent-purple);
+  }
+
+  .faq-item summary {
+    cursor: pointer;
+    font-weight: 600;
+    font-size: var(--font-size-base);
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-item summary::after {
+    content: '+';
+    font-family: var(--font-mono);
+    font-size: var(--font-size-lg);
+    color: var(--accent-cyan);
+    flex-shrink: 0;
+    margin-left: var(--space-4);
+  }
+
+  .faq-item[open] summary::after {
+    content: '−';
+  }
+
+  .faq-item p {
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+    line-height: 1.7;
+    margin-top: var(--space-3);
   }
 </style>
