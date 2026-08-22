@@ -15,6 +15,9 @@
   --text-primary: #f1f5f9;
   --text-secondary: #94a3b8;
   --text-muted: #64748b;
+  /* Always light — --accent-purple stays dark in both themes, so text on top of it (e.g.
+     .btn--primary) must not follow --text-primary, which flips to dark in the light theme. */
+  --text-on-accent: #f8fafc;
 
   --color-danger: #ff6b6b;
   --color-success: #3fb950;

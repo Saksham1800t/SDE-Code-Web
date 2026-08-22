@@ -64,7 +64,7 @@ code, pre {
 
 .btn--primary {
   background: var(--accent-purple);
-  color: var(--text-primary);
+  color: var(--text-on-accent);
 }
 
 .btn--primary:hover {
