@@ -37,9 +37,6 @@ function formatDate(iso: string | null): string {
               {r.macAssetUrl && (
                 <a class="btn btn--secondary btn--sm" href={r.macAssetUrl}>macOS</a>
               )}
-              {r.releaseUrl && (
-                <a class="version-notes-link" href={r.releaseUrl} target="_blank" rel="noopener noreferrer">Release notes →</a>
-              )}
             </div>
           </div>
         ))}
@@ -145,14 +142,5 @@ function formatDate(iso: string | null): string {
   .btn--sm {
     padding: var(--space-2) var(--space-4);
     font-size: var(--font-size-sm);
-  }
-
-  .version-notes-link {
-    color: var(--text-muted);
-    font-size: var(--font-size-sm);
-  }
-
-  .version-notes-link:hover {
-    color: var(--accent-cyan);
   }
 </style>

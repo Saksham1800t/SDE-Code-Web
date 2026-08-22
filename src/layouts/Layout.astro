@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css';
-import { PRODUCT_NAME, GITHUB_URL } from '../config';
+import { PRODUCT_NAME } from '../config';
 
 interface Props {
   title: string;
@@ -63,7 +63,6 @@ const imageURL = new URL(image, Astro.site);
           <a href="/download">Download</a>
           <a href="/versions">Versions</a>
           <a href="/docs">Docs</a>
-          <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer">GitHub</a>
         </nav>
         <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation menu">
           <span class="nav-toggle-bar" aria-hidden="true"></span>
@@ -80,7 +79,6 @@ const imageURL = new URL(image, Astro.site);
     <footer class="site-footer">
       <div class="container site-footer-inner">
         <span>&copy; {new Date().getFullYear()} {PRODUCT_NAME}</span>
-        <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer">GitHub</a>
       </div>
     </footer>
 

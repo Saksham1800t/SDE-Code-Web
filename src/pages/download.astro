@@ -1,7 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { getLatestRelease } from '../lib/releases';
-import { GITHUB_URL } from '../config';
 
 const release = await getLatestRelease();
 
@@ -23,13 +22,9 @@ const platforms = [
   <section class="container download-page">
     <span class="eyebrow">{release.version ? `Version ${release.version}` : 'No build published yet'}</span>
     <h1>Download SDE Code</h1>
-    <p class="version-line">
-      {release.releaseUrl ? (
-        <a href={release.releaseUrl} target="_blank" rel="noopener noreferrer">Read the release notes →</a>
-      ) : (
-        'Check back soon — the first build is on its way.'
-      )}
-    </p>
+    {!release.releaseUrl && (
+      <p class="version-line">Check back soon — the first build is on its way.</p>
+    )}
 
     <div class="platform-grid">
       {platforms.map((p) => (
@@ -50,7 +45,7 @@ const platforms = [
     </div>
 
     <p class="source-note">
-      Looking for an older build? See <a href="/versions">all versions</a>. SDE Code is built in the open — browse the source or file an issue on <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer">GitHub</a>.
+      Looking for an older build? See <a href="/versions">all versions</a>.
     </p>
   </section>
 </Layout>
