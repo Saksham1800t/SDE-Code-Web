@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { getLatestRelease, getAllReleases } from '../lib/releases';
+import LiveDownloadCount from '../components/LiveDownloadCount';
 
 const [release, allReleases] = await Promise.all([getLatestRelease(), getAllReleases()]);
 
@@ -8,21 +9,20 @@ const [release, allReleases] = await Promise.all([getLatestRelease(), getAllRele
 // published version, not just the current one.
 const totalDownloads = allReleases.reduce((sum, r) => sum + r.downloadCount, 0);
 
-const numberFormat = new Intl.NumberFormat('en-US');
-const pluralDownloads = (n: number) => (n === 1 ? 'download' : 'downloads');
-
 const platforms = [
   {
     name: 'Windows',
     requirement: 'Windows 10 or later, 64-bit',
     assetUrl: release.windowsAssetUrl,
-    downloadCount: release.windowsDownloadCount,
+    downloadCount: release.windowsDownloadCount ?? 0,
+    kind: 'windows' as const,
   },
   {
     name: 'macOS',
     requirement: 'macOS 11 (Big Sur) or later',
     assetUrl: release.macAssetUrl,
-    downloadCount: release.macDownloadCount,
+    downloadCount: release.macDownloadCount ?? 0,
+    kind: 'mac' as const,
   },
 ];
 ---
@@ -34,9 +34,7 @@ const platforms = [
     {!release.releaseUrl && (
       <p class="version-line">Check back soon — the first build is on its way.</p>
     )}
-    {totalDownloads > 0 && (
-      <p class="total-downloads">{numberFormat.format(totalDownloads)} {pluralDownloads(totalDownloads)} across all versions</p>
-    )}
+    <LiveDownloadCount client:load kind="total" initialValue={totalDownloads} className="total-downloads" />
 
     <div class="platform-grid">
       {platforms.map((p) => (
@@ -52,9 +50,7 @@ const platforms = [
           ) : (
             <button class="btn btn--primary" disabled>Coming soon</button>
           )}
-          {typeof p.downloadCount === 'number' && (
-            <p class="download-count">{numberFormat.format(p.downloadCount)} {pluralDownloads(p.downloadCount)} (this version)</p>
-          )}
+          <LiveDownloadCount client:load kind={p.kind} initialValue={p.downloadCount} className="download-count" />
         </div>
       ))}
     </div>
