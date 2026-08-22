@@ -7,9 +7,11 @@ interface Props {
   description: string;
   /** Absolute or site-relative image URL for social share cards. */
   image?: string;
+  /** 'article' for content pages (docs) vs the default 'website' for structural pages (home, download, versions). */
+  type?: 'website' | 'article';
 }
 
-const { title, description, image = '/og-image.png' } = Astro.props;
+const { title, description, image = '/og-image.png', type = 'website' } = Astro.props;
 const pageTitle = `${title} · ${PRODUCT_NAME}`;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const imageURL = new URL(image, Astro.site);
@@ -27,7 +29,7 @@ const imageURL = new URL(image, Astro.site);
     <link rel="canonical" href={canonicalURL} />
     <title>{pageTitle}</title>
 
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={type} />
     <meta property="og:site_name" content={PRODUCT_NAME} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
@@ -36,6 +38,7 @@ const imageURL = new URL(image, Astro.site);
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content={pageTitle} />
+    {type === 'article' && <meta property="article:section" content="Documentation" />}
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={pageTitle} />

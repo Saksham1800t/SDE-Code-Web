@@ -19,9 +19,20 @@ interface Props {
 const { title, description, currentSlug, headings = [] } = Astro.props;
 const allDocs = (await getCollection('docs')).sort((a, b) => a.data.order - b.data.order);
 const tocHeadings = headings.filter((h) => h.depth === 2);
+const canonicalURL = new URL(Astro.url.pathname, Astro.site).toString();
+
+const techArticleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'TechArticle',
+  headline: title,
+  description,
+  url: canonicalURL,
+  isPartOf: { '@type': 'WebSite', name: 'SDE Code', url: Astro.site?.toString() },
+};
 ---
 
-<Layout title={title} description={description}>
+<Layout title={title} description={description} type="article">
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(techArticleSchema)} />
   <div class="container docs-shell">
     <nav class="docs-sidebar" aria-label="Documentation">
       <DocsSearch />
