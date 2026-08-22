@@ -154,4 +154,68 @@
     --pagefind-ui-border-width: 1px;
     --pagefind-ui-font: var(--font-sans);
   }
+
+  /* Pagefind injects its results into the DOM after its script loads (see the script above),
+     so Astro's scoped-style attribute never reaches these elements — every rule below needs
+     :global() or it silently does nothing. The CSS custom properties above are the exception:
+     those inherit through the DOM tree regardless of scoping.
+
+     Every selector is also prefixed with .docs-search-panel: Pagefind's own stylesheet pairs
+     each class with a Svelte hash class (e.g. .pagefind-ui__message.svelte-e9gkc3), which
+     outweighs a single bare class here regardless of load order. Matching that specificity by
+     nesting under our own panel class — rather than reaching for !important — is what actually
+     wins the cascade. */
+
+  /* Pagefind's own stylesheet renders matched terms as a raw browser <mark> — bright yellow on
+     black, unthemed and jarring next to the site's purple/cyan palette in both themes. */
+  :global(.docs-search-panel .pagefind-ui__result-excerpt mark) {
+    background: color-mix(in srgb, var(--accent-cyan) 25%, transparent);
+    color: var(--text-primary);
+    border-radius: var(--radius-sm);
+    padding: 0 2px;
+    font-weight: 600;
+  }
+
+  :global(.docs-search-panel .pagefind-ui__result-title a) {
+    transition: var(--transition-smooth);
+  }
+
+  :global(.docs-search-panel .pagefind-ui__result-title a:hover) {
+    color: var(--accent-cyan);
+  }
+
+  /* A divider per top-level result reads as a scannable list instead of one dense block —
+     nested sub-results stay undivided since they already belong visually to their parent. */
+  :global(.docs-search-panel .pagefind-ui__result) {
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  :global(.docs-search-panel .pagefind-ui__result:last-child) {
+    border-bottom: none;
+  }
+
+  /* A left rule ties each sub-result back to its parent page instead of sitting flush at the
+     same indent, which otherwise reads as a second, unrelated top-level result. */
+  :global(.docs-search-panel .pagefind-ui__result-nested) {
+    margin-top: var(--space-3);
+    padding-left: var(--space-4);
+    border-left: 2px solid var(--border-color);
+  }
+
+  :global(.docs-search-panel .pagefind-ui__message) {
+    color: var(--text-muted);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  :global(.docs-search-panel .pagefind-ui__search-clear) {
+    color: var(--text-muted);
+    transition: var(--transition-smooth);
+  }
+
+  :global(.docs-search-panel .pagefind-ui__search-clear:hover) {
+    color: var(--accent-cyan);
+  }
 </style>
