@@ -5,9 +5,18 @@ export interface LatestRelease {
   windowsAssetUrl: string | null;
   macAssetUrl: string | null;
   releaseUrl: string | null;
+  windowsDownloadCount: number | null;
+  macDownloadCount: number | null;
 }
 
-const EMPTY: LatestRelease = { version: null, windowsAssetUrl: null, macAssetUrl: null, releaseUrl: null };
+const EMPTY: LatestRelease = {
+  version: null,
+  windowsAssetUrl: null,
+  macAssetUrl: null,
+  releaseUrl: null,
+  windowsDownloadCount: null,
+  macDownloadCount: null,
+};
 
 /**
  * Build-time only (called from .astro frontmatter, never client-side) — a static site has no
@@ -21,7 +30,7 @@ export async function getLatestRelease(): Promise<LatestRelease> {
     const res = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/releases/latest`);
     if (!res.ok) return EMPTY;
     const data = await res.json();
-    const assets: Array<{ name: string; browser_download_url: string }> = data.assets ?? [];
+    const assets: Array<{ name: string; browser_download_url: string; download_count: number }> = data.assets ?? [];
     const windowsAsset = assets.find((a) => a.name.toLowerCase().endsWith('.exe'));
     const macAsset = assets.find((a) => a.name.toLowerCase().endsWith('.dmg'));
     return {
@@ -29,6 +38,8 @@ export async function getLatestRelease(): Promise<LatestRelease> {
       windowsAssetUrl: windowsAsset?.browser_download_url ?? null,
       macAssetUrl: macAsset?.browser_download_url ?? null,
       releaseUrl: typeof data.html_url === 'string' ? data.html_url : null,
+      windowsDownloadCount: windowsAsset?.download_count ?? null,
+      macDownloadCount: macAsset?.download_count ?? null,
     };
   } catch {
     return EMPTY;
@@ -42,6 +53,7 @@ export interface ReleaseVersion {
   windowsAssetUrl: string | null;
   macAssetUrl: string | null;
   prerelease: boolean;
+  downloadCount: number;
 }
 
 /**
@@ -66,7 +78,7 @@ export async function getAllReleases(): Promise<ReleaseVersion[]> {
 
     return data
       .map((release: any): ReleaseVersion & { sortKey: number } => {
-        const assets: Array<{ name: string; browser_download_url: string }> = release.assets ?? [];
+        const assets: Array<{ name: string; browser_download_url: string; download_count: number }> = release.assets ?? [];
         const windowsAsset = assets.find((a) => a.name.toLowerCase().endsWith('.exe'));
         const macAsset = assets.find((a) => a.name.toLowerCase().endsWith('.dmg'));
         const publishedAt = typeof release.published_at === 'string' ? release.published_at : null;
@@ -77,6 +89,9 @@ export async function getAllReleases(): Promise<ReleaseVersion[]> {
           windowsAssetUrl: windowsAsset?.browser_download_url ?? null,
           macAssetUrl: macAsset?.browser_download_url ?? null,
           prerelease: Boolean(release.prerelease),
+          // Only the real installers count — .blockmap/.yml assets are fetched by the
+          // auto-updater's own polling, not by someone actually downloading this version.
+          downloadCount: (windowsAsset?.download_count ?? 0) + (macAsset?.download_count ?? 0),
           sortKey: publishedAt ? new Date(publishedAt).getTime() : 0,
         };
       })

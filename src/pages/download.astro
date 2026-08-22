@@ -1,19 +1,28 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { getLatestRelease } from '../lib/releases';
+import { getLatestRelease, getAllReleases } from '../lib/releases';
 
-const release = await getLatestRelease();
+const [release, allReleases] = await Promise.all([getLatestRelease(), getAllReleases()]);
+
+// Real installer downloads only (see getAllReleases' own comment) — summed across every
+// published version, not just the current one.
+const totalDownloads = allReleases.reduce((sum, r) => sum + r.downloadCount, 0);
+
+const numberFormat = new Intl.NumberFormat('en-US');
+const pluralDownloads = (n: number) => (n === 1 ? 'download' : 'downloads');
 
 const platforms = [
   {
     name: 'Windows',
     requirement: 'Windows 10 or later, 64-bit',
     assetUrl: release.windowsAssetUrl,
+    downloadCount: release.windowsDownloadCount,
   },
   {
     name: 'macOS',
     requirement: 'macOS 11 (Big Sur) or later',
     assetUrl: release.macAssetUrl,
+    downloadCount: release.macDownloadCount,
   },
 ];
 ---
@@ -24,6 +33,9 @@ const platforms = [
     <h1>Download SDE Code</h1>
     {!release.releaseUrl && (
       <p class="version-line">Check back soon — the first build is on its way.</p>
+    )}
+    {totalDownloads > 0 && (
+      <p class="total-downloads">{numberFormat.format(totalDownloads)} {pluralDownloads(totalDownloads)} across all versions</p>
     )}
 
     <div class="platform-grid">
@@ -39,6 +51,9 @@ const platforms = [
             <a class="btn btn--primary" href={p.assetUrl}>Download for {p.name}</a>
           ) : (
             <button class="btn btn--primary" disabled>Coming soon</button>
+          )}
+          {typeof p.downloadCount === 'number' && (
+            <p class="download-count">{numberFormat.format(p.downloadCount)} {pluralDownloads(p.downloadCount)} (this version)</p>
           )}
         </div>
       ))}
@@ -68,6 +83,13 @@ const platforms = [
   .version-line a {
     color: var(--accent-cyan);
     font-weight: 600;
+  }
+
+  .total-downloads {
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--space-12);
   }
 
   .platform-grid {
@@ -104,6 +126,12 @@ const platforms = [
     color: var(--text-muted);
     font-size: var(--font-size-sm);
     margin-bottom: var(--space-6);
+  }
+
+  .download-count {
+    color: var(--text-muted);
+    font-size: var(--font-size-sm);
+    margin-top: var(--space-3);
   }
 
   .source-note {

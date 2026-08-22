@@ -4,3 +4,7 @@
 export const GITHUB_REPO = 'Saksham1800t/SDE-Code-App';
 export const PRODUCT_NAME = 'SDE Code';
 export const TAGLINE = 'The AI-first IDE.';
+
+// Same backend the desktop app talks to (SDE-Code-Backend, see its own serverConfig.ts) — the
+// suggestions form writes into the same MongoDB instance rather than standing up a second one.
+export const BACKEND_URL = 'https://sde-code-backend-production.up.railway.app';

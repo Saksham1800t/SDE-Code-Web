@@ -1,0 +1,99 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SuggestionForm from '../components/SuggestionForm';
+---
+
+<Layout title="Suggestions" description="Share a suggestion or feature request for SDE Code.">
+  <section class="container suggestions-page">
+    <span class="eyebrow">Feedback</span>
+    <h1>Suggest something</h1>
+    <p class="suggestions-sub">
+      Have an idea, a feature request, or something that's bugging you? Send it here — read by the team, not published anywhere.
+    </p>
+
+    <div class="suggestions-form-wrap">
+      <SuggestionForm client:load />
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .suggestions-page {
+    padding: var(--space-16) var(--space-6) var(--space-24);
+    max-width: 640px;
+  }
+
+  .suggestions-page h1 {
+    font-size: clamp(1.75rem, 4vw + 1rem, var(--font-size-2xl));
+    margin: var(--space-4) 0 var(--space-3);
+  }
+
+  .suggestions-sub {
+    color: var(--text-secondary);
+    margin-bottom: var(--space-12);
+  }
+
+  .suggestions-form-wrap :global(.suggestion-form) {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .suggestions-form-wrap :global(label) {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-top: var(--space-4);
+  }
+
+  .suggestions-form-wrap :global(label:first-of-type) {
+    margin-top: 0;
+  }
+
+  .suggestions-form-wrap :global(textarea),
+  .suggestions-form-wrap :global(input) {
+    width: 100%;
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    font-size: var(--font-size-base);
+    resize: vertical;
+  }
+
+  .suggestions-form-wrap :global(textarea:focus),
+  .suggestions-form-wrap :global(input:focus) {
+    outline: none;
+    border-color: var(--accent-purple);
+  }
+
+  .suggestions-form-wrap :global(.suggestion-char-count) {
+    align-self: flex-end;
+    color: var(--text-muted);
+    font-size: var(--font-size-sm);
+  }
+
+  .suggestions-form-wrap :global(.suggestion-error) {
+    color: var(--color-danger);
+    font-size: var(--font-size-sm);
+  }
+
+  .suggestions-form-wrap :global(.suggestion-form button[type='submit']) {
+    align-self: flex-start;
+    margin-top: var(--space-4);
+  }
+
+  .suggestions-form-wrap :global(.suggestion-success) {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-4);
+    padding: var(--space-8);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
+  }
+</style>

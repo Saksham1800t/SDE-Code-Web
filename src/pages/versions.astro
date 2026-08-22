@@ -3,6 +3,8 @@ import Layout from '../layouts/Layout.astro';
 import { getAllReleases } from '../lib/releases';
 
 const releases = await getAllReleases();
+const numberFormat = new Intl.NumberFormat('en-US');
+const pluralDownloads = (n: number) => (n === 1 ? 'download' : 'downloads');
 
 function formatDate(iso: string | null): string {
   if (!iso) return '';
@@ -29,6 +31,7 @@ function formatDate(iso: string | null): string {
               {i === 0 && <span class="version-latest-badge">Latest</span>}
               {r.prerelease && <span class="version-prerelease-badge">Pre-release</span>}
               {r.publishedAt && <span class="version-date">{formatDate(r.publishedAt)}</span>}
+              {r.downloadCount > 0 && <span class="version-downloads">{numberFormat.format(r.downloadCount)} {pluralDownloads(r.downloadCount)}</span>}
             </div>
             <div class="version-row-actions">
               {r.windowsAssetUrl && (
@@ -128,7 +131,8 @@ function formatDate(iso: string | null): string {
     text-transform: uppercase;
   }
 
-  .version-date {
+  .version-date,
+  .version-downloads {
     color: var(--text-muted);
     font-size: var(--font-size-sm);
   }
