@@ -22,6 +22,15 @@
   const modal = document.getElementById('docs-search-modal');
   const backdrop = document.getElementById('docs-search-backdrop');
 
+  // This component's markup starts out nested inside .docs-sidebar (see DocsLayout.astro),
+  // which DocsLayout's own entrance animation briefly gives a GSAP transform. A `position:
+  // fixed` descendant of any transformed ancestor is scoped to that ancestor's box instead of
+  // the viewport — so on wide screens, opening search mid-animation trapped this full-screen
+  // modal inside the narrow 220px sidebar column instead of centering it on the page. Moving it
+  // to a direct child of <body> up front, before that animation ever starts, sidesteps the
+  // containing-block rule entirely rather than racing it.
+  if (modal) document.body.appendChild(modal);
+
   // pagefind-ui.js is a classic script (it sets window.PagefindUI directly), not an ES
   // module — it only exists after `pagefind --site dist` runs post-build, so it can't be a
   // static <script> tag either. Load it as a one-off classic script rather than import().
